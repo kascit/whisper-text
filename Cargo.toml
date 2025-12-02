@@ -1,0 +1,9 @@
+[package]
+name = "whisper-text"
+version = "0.1.0"
+edition = "2021"
+authors = ["whisper-text contributors"]
+license = "MIT"
+description = "Text steganography library using zero-width Unicode characters"
+
+[dependencies]
