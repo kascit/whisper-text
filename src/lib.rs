@@ -4,6 +4,7 @@
 
 #![warn(missing_docs)]
 
+mod codec;
 mod error;
 
 pub use error::{Error, Result};
