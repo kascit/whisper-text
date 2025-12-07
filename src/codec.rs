@@ -61,3 +61,63 @@ pub fn encode(cover_text: &str, secret: &str) -> Result<String> {
 
     Ok(result)
 }
+
+/// Decodes a hidden message from text containing zero-width Unicode characters.
+///
+/// Extracts and decodes the secret message that was embedded using the `encode`
+/// function. The function looks for the start and end markers and decodes the
+/// binary data between them.
+///
+/// # Arguments
+///
+/// * `encoded_text` - Text containing a hidden message
+///
+/// # Returns
+///
+/// Returns the decoded secret message, or an error if no valid message is found
+/// or if the message is corrupted.
+pub fn decode(encoded_text: &str) -> Result<String> {
+    // Find start and end markers
+    let start_pos = encoded_text.find(START_MARKER);
+    let end_pos = encoded_text.find(END_MARKER);
+
+    match (start_pos, end_pos) {
+        (Some(start), Some(end)) if start < end => {
+            // Extract the hidden section (between markers)
+            let hidden_start = start + START_MARKER.len();
+            let hidden_section = &encoded_text[hidden_start..end];
+
+            // Decode the binary data
+            let mut bytes = Vec::new();
+            let mut current_byte = 0u8;
+            let mut bit_count = 0;
+
+            for ch in hidden_section.chars() {
+                let bit = match ch {
+                    ZERO_BIT => 0,
+                    ONE_BIT => 1,
+                    _ => continue, // Ignore non-encoding characters
+                };
+
+                current_byte = (current_byte << 1) | bit;
+                bit_count += 1;
+
+                if bit_count == 8 {
+                    bytes.push(current_byte);
+                    current_byte = 0;
+                    bit_count = 0;
+                }
+            }
+
+            // Check if we have incomplete bits (corruption)
+            if bit_count != 0 {
+                return Err(Error::CorruptedPayload);
+            }
+
+            // Convert bytes to string
+            String::from_utf8(bytes).map_err(|_| Error::InvalidUtf8)
+        }
+        (Some(_), Some(_)) => Err(Error::CorruptedPayload),
+        _ => Err(Error::NoHiddenMessage),
+    }
+}

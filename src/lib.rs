@@ -7,5 +7,5 @@
 mod codec;
 mod error;
 
-pub use codec::encode;
+pub use codec::{decode, encode};
 pub use error::{Error, Result};
