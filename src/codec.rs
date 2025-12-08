@@ -121,3 +121,31 @@ pub fn decode(encoded_text: &str) -> Result<String> {
         _ => Err(Error::NoHiddenMessage),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_encode_basic() {
+        let result = encode("Hello", "hi");
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_encode_empty_cover() {
+        let result = encode("", "secret");
+        assert_eq!(result, Err(Error::CoverTextTooShort));
+    }
+
+    #[test]
+    fn test_round_trip_simple() {
+        let cover = "Hello, World!";
+        let secret = "secret";
+        
+        let encoded = encode(cover, secret).unwrap();
+        let decoded = decode(&encoded).unwrap();
+        
+        assert_eq!(decoded, secret);
+    }
+}
