@@ -148,4 +148,34 @@ mod tests {
         
         assert_eq!(decoded, secret);
     }
+
+    #[test]
+    fn test_round_trip_unicode() {
+        let cover = "Hello, 世界! 👋";
+        let secret = "Unicode: 你好 🚀";
+        
+        let encoded = encode(cover, secret).unwrap();
+        let decoded = decode(&encoded).unwrap();
+        
+        assert_eq!(decoded, secret);
+    }
+
+    #[test]
+    fn test_decode_no_hidden_message() {
+        let plain_text = "This is just plain text";
+        let result = decode(plain_text);
+        
+        assert_eq!(result, Err(Error::NoHiddenMessage));
+    }
+
+    #[test]
+    fn test_round_trip_empty_secret() {
+        let cover = "Cover";
+        let secret = "";
+        
+        let encoded = encode(cover, secret).unwrap();
+        let decoded = decode(&encoded).unwrap();
+        
+        assert_eq!(decoded, secret);
+    }
 }
