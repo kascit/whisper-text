@@ -178,4 +178,37 @@ mod tests {
         
         assert_eq!(decoded, secret);
     }
+
+    #[test]
+    fn test_round_trip_long_message() {
+        let cover = "The quick brown fox jumps over the lazy dog.";
+        let secret = "This is a much longer secret message with multiple words!";
+        
+        let encoded = encode(cover, secret).unwrap();
+        let decoded = decode(&encoded).unwrap();
+        
+        assert_eq!(decoded, secret);
+    }
+
+    #[test]
+    fn test_round_trip_special_chars() {
+        let cover = "Cover text";
+        let secret = "!@#$%^&*()_+-=[]{}|;':\",./<>?";
+        
+        let encoded = encode(cover, secret).unwrap();
+        let decoded = decode(&encoded).unwrap();
+        
+        assert_eq!(decoded, secret);
+    }
+
+    #[test]
+    fn test_deterministic_encoding() {
+        let cover = "Hello";
+        let secret = "test";
+        
+        let encoded1 = encode(cover, secret).unwrap();
+        let encoded2 = encode(cover, secret).unwrap();
+        
+        assert_eq!(encoded1, encoded2);
+    }
 }
