@@ -19,7 +19,8 @@ const END_MARKER: &str = "\u{FEFF}"; // ZERO WIDTH NO-BREAK SPACE
 /// Encodes a secret message into cover text using zero-width Unicode characters.
 ///
 /// The secret message is converted to binary and embedded using zero-width
-/// characters between the characters of the cover text.
+/// characters between the characters of the cover text. The encoded text
+/// appears unchanged to readers but contains the hidden message.
 ///
 /// # Arguments
 ///
@@ -28,8 +29,18 @@ const END_MARKER: &str = "\u{FEFF}"; // ZERO WIDTH NO-BREAK SPACE
 ///
 /// # Returns
 ///
-/// Returns the cover text with the secret message embedded, or an error if
-/// the cover text is too short.
+/// Returns the cover text with the secret message embedded using zero-width
+/// characters, or an error if the cover text is too short.
+///
+/// # Example
+///
+/// ```
+/// use whisper_text::encode;
+///
+/// let encoded = encode("Hello, World!", "secret").unwrap();
+/// // Encoded text contains all original characters plus hidden zero-width chars
+/// assert!(encoded.len() > "Hello, World!".len());
+/// ```
 pub fn encode(cover_text: &str, secret: &str) -> Result<String> {
     if cover_text.is_empty() {
         return Err(Error::CoverTextTooShort);
@@ -76,6 +87,16 @@ pub fn encode(cover_text: &str, secret: &str) -> Result<String> {
 ///
 /// Returns the decoded secret message, or an error if no valid message is found
 /// or if the message is corrupted.
+///
+/// # Example
+///
+/// ```
+/// use whisper_text::{encode, decode};
+///
+/// let encoded = encode("Hello, World!", "secret").unwrap();
+/// let decoded = decode(&encoded).unwrap();
+/// assert_eq!(decoded, "secret");
+/// ```
 pub fn decode(encoded_text: &str) -> Result<String> {
     // Find start and end markers
     let start_pos = encoded_text.find(START_MARKER);
