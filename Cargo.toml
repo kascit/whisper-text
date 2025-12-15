@@ -5,5 +5,8 @@ edition = "2021"
 authors = ["whisper-text contributors"]
 license = "MIT"
 description = "Text steganography library using zero-width Unicode characters"
+repository = "https://github.com/CHITKARA/whisper-text"
+keywords = ["steganography", "unicode", "encoding", "security"]
+categories = ["encoding", "text-processing"]
 
 [dependencies]
