@@ -232,4 +232,32 @@ mod tests {
         
         assert_eq!(encoded1, encoded2);
     }
+
+    #[test]
+    fn test_encoded_text_preserves_visible_content() {
+        let cover = "Hello, World!";
+        let secret = "secret";
+        
+        let encoded = encode(cover, secret).unwrap();
+        
+        // The visible text should still contain all original characters
+        let visible: String = encoded.chars()
+            .filter(|&c| c != ZERO_BIT && c != ONE_BIT 
+                    && c != '\u{200D}' && c != '\u{FEFF}')
+            .collect();
+        
+        assert_eq!(visible, cover);
+    }
+
+    #[test]
+    fn test_multiple_messages() {
+        let cover = "Test";
+        let secrets = vec!["a", "ab", "abc", "test123", "🔒"];
+        
+        for secret in secrets {
+            let encoded = encode(cover, secret).unwrap();
+            let decoded = decode(&encoded).unwrap();
+            assert_eq!(decoded, secret, "Failed for secret: {}", secret);
+        }
+    }
 }
