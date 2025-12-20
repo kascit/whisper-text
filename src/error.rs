@@ -10,13 +10,13 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub enum Error {
     /// The cover text is too short to embed the secret message.
     CoverTextTooShort,
-    
+
     /// No hidden message was found in the text.
     NoHiddenMessage,
-    
+
     /// The hidden message is corrupted or invalid.
     CorruptedPayload,
-    
+
     /// Invalid UTF-8 encountered during decoding.
     InvalidUtf8,
 }
