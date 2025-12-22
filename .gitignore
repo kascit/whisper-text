@@ -2,7 +2,6 @@
 /target/
 **/*.rs.bk
 *.pdb
-Cargo.lock
 
 # IDE
 .vscode/
@@ -10,3 +9,7 @@ Cargo.lock
 *.swp
 *.swo
 *~
+
+# OS
+.DS_Store
+Thumbs.db
