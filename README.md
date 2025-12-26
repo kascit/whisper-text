@@ -39,6 +39,17 @@ fn main() {
 }
 ```
 
+### Advanced Usage
+
+```rust
+use whisper_text::{encode, decode, strip_hidden};
+
+// Strip hidden content to get only visible text
+let encoded = encode("Hello", "secret").unwrap();
+let visible = strip_hidden(&encoded);
+assert_eq!(visible, "Hello");
+```
+
 ## How It Works
 
 The library converts secret messages to binary and encodes them using zero-width Unicode characters:
