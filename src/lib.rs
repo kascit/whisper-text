@@ -23,6 +23,8 @@
 
 mod codec;
 mod error;
+mod utils;
 
 pub use codec::{decode, encode};
 pub use error::{Error, Result};
+pub use utils::{is_zero_width_char, strip_hidden};
