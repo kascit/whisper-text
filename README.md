@@ -60,6 +60,24 @@ The library converts secret messages to binary and encodes them using zero-width
 
 These characters are invisible but preserved by computers.
 
+## Testing
+
+Run the test suite:
+
+```bash
+cargo test
+```
+
+Run the example:
+
+```bash
+cargo run --example basic
+```
+
+## Security Considerations
+
+This library is designed for hiding data in plain text, not for cryptographic security. The hidden messages are obfuscated but **not encrypted**. For sensitive data, encrypt your secret message before encoding it.
+
 ## License
 
 MIT
