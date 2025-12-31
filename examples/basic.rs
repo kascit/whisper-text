@@ -12,7 +12,8 @@ fn main() {
     // Encode
     let encoded = encode(cover, secret).expect("Failed to encode");
     println!("Encoded text (looks same): {}", encoded);
-    println!("Encoded length: {} bytes\n", encoded.len());
+    println!("Encoded length: {} bytes", encoded.len());
+    println!("(Note: Terminal may show zero-width chars, but they're invisible in editors/browsers)\n");
 
     // Decode
     let decoded = decode(&encoded).expect("Failed to decode");
