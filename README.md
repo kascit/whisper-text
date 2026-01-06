@@ -58,7 +58,7 @@ The library converts secret messages to binary and encodes them using zero-width
 - `U+200D` (ZERO WIDTH JOINER) → start marker
 - `U+FEFF` (ZERO WIDTH NO-BREAK SPACE) → end marker
 
-These characters are invisible but preserved by computers.
+These characters are invisible in text editors, web browsers, and most applications, but are preserved by computers. **Note:** Terminals may render these characters visibly, but they are truly invisible in practical use cases.
 
 ## Testing
 
