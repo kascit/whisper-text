@@ -32,7 +32,7 @@ fn main() {
 
     // Encode secret into cover text
     let encoded = encode(cover_text, secret).unwrap();
-    
+
     // Decode secret from encoded text
     let decoded = decode(&encoded).unwrap();
     assert_eq!(decoded, secret);
@@ -53,8 +53,9 @@ assert_eq!(visible, "Hello");
 ## How It Works
 
 The library converts secret messages to binary and encodes them using zero-width Unicode characters:
+
 - `U+200B` (ZERO WIDTH SPACE) → binary '0'
-- `U+200C` (ZERO WIDTH NON-JOINER) → binary '1'  
+- `U+200C` (ZERO WIDTH NON-JOINER) → binary '1'
 - `U+200D` (ZERO WIDTH JOINER) → start marker
 - `U+FEFF` (ZERO WIDTH NO-BREAK SPACE) → end marker
 
